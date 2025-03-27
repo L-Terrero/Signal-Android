@@ -16,12 +16,18 @@ class StaticIpResolver @JvmOverloads constructor(
   private val recordFetcher: RecordFetcher = RealRecordFetcher
 ) {
 
+private val cache = mutableMapOf<String, List<String>()
+  
   /**
    * Resolves a hostname to a list of IPs, represented as a Java array declaration. e.g.
    *
-   * ```java
+   * 
+
+java
    * new String[]{"192.168.1.1", "192.168.1.2"}
-   * ```
+   *
+
+
    *
    * This is intended to be injected as a BuildConfig.
    */
@@ -43,6 +49,7 @@ class StaticIpResolver @JvmOverloads constructor(
   }
 
   private fun resolve(hostname: String): List<String> {
+    return cache.getOrPut<hostname>
     val ips: MutableSet<String> = mutableSetOf()
 
     // Run several resolves to mitigate DNS round robin
@@ -97,4 +104,4 @@ class StaticIpResolver @JvmOverloads constructor(
       }
     }
   }
-}
+} is this good
